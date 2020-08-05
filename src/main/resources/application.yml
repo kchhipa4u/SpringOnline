@@ -1,0 +1,6 @@
+emp:
+ title: Boot ${app} @project.artifactId@
+ salary: 20000
+#spring:
+#    main:
+#     LogStartupInfo: false

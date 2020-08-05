@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+               http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	
+	<bean name="helloBean helloBean1" class="com.onlinelearning.day3.HelloBean" scope="prototype"/>
+	<bean id="helloBean2" class="com.onlinelearning.day3.HelloBean" scope="prototype"/>
+	
+	<bean id="createeClient"
+		class="com.onlinelearning.day2.OrderServiceClient">
+		<constructor-arg>
+			<ref bean="orderServiceImpl1" />
+		</constructor-arg>
+	</bean>
+
+	<bean id="orderServiceImpl1"
+		class="com.onlinelearning.day2.OrderServiceImpl1" />
+
+    <bean id="employee" class="com.onlinelearning.day3.Employee">
+		<constructor-arg value="Kanhaiya" />
+		<constructor-arg value="10000" type="int" />
+		<constructor-arg ref="address" />
+    </bean>
+    
+    <bean id="address" class="com.onlinelearning.day3.Address">
+        <constructor-arg value="Udaipur"/>
+        <constructor-arg value="Rajasthan"/>
+        <constructor-arg value="India"/>
+    </bean>
+    
+    <!-- Setter Based -->
+    
+    <bean id="employee2" class="com.onlinelearning.day3.Employee">
+	    <property name="name" value="Binu" />
+	    <property name="salary" value="20000" />
+	    <property name="address" ref="address2" />
+    </bean>
+    
+    <bean id="address2" class="com.onlinelearning.day3.Address" >
+        <constructor-arg value="Indore"/>
+        <constructor-arg value="Madhya Pradesh"/>
+        <constructor-arg value="India"/>
+    </bean>
+
+</beans> 

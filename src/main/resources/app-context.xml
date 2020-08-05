@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+ 
+http://www.springframework.org/schema/beans/spring-beans.xsd"
+
+	default-lazy-init="true" >
+	<!-- we added the attribute default-lazy-init="true" to instruct Spring 
+to instantiate the beans defined in the configuration file only when the bean was requested from the 
+application. If we do not specify it, Spring will try to initialize all the beans during the bootstrapping of 
+ApplicationContext, and it will fail during the initialization of singerThree. -->
+
+<!-- When all the beans in a configuration file have the same init-method configuration, the file can 
+be simplified, by setting the default-init-method attribute on the <beans> element. -->
+
+<!-- <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+ 
+http://www.springframework.org/schema/beans/spring-beans.xsd"
+
+	default-lazy-init="true" default-init-method="init" > -->
+	
+
+	<bean id="empOne" class="com.onlinelearning.day4.Employee"
+		init-method="init" destroy-method="destroy" p:name="Aanya" p:age="26" />
+
+	<bean id="empTwo" class="com.onlinelearning.day4.Employee"
+		init-method="init" destroy-method="destroy" p:age="72" />
+
+	<bean id="empThree" class="com.onlinelearning.day4.Employee"
+		init-method="init" p:name="Prayan" />
+</beans>
