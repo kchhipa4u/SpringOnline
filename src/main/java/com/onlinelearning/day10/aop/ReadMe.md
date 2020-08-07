@@ -17,5 +17,8 @@
 	   //execution(* PACKAGE.*.*(..))
 	   a. test without JoinPoint Argument
 	   b. Test with Joinpoint Argument
+	   
+6. Write AfterAspect class which covers both @After, and @AfterReturning Aspects
+     -- @After is always called regardless of @AfterReturning or @AfterThrowing.
 
 	
