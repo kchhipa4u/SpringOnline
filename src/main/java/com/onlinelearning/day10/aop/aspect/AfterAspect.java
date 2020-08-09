@@ -28,8 +28,8 @@ public class AfterAspect {
 	}
 	
 	
-	@AfterThrowing("execution(* com.onlinelearning.day10.aop.service.*.*(..))")
-	public void logExceptions(JoinPoint joinPoint){
+	@AfterThrowing(value = "execution(* com.onlinelearning.day10.aop.service.*.*(..))", throwing="exception")
+	public void logExceptions(JoinPoint joinPoint, Exception exception){
 		logger.info("Exception thrown in doGetException Method="+joinPoint.toString());
 	}
 

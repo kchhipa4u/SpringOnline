@@ -49,6 +49,14 @@ Sometimes we have to use same Pointcut expression at multiple places, we can cre
 	// SpringAopApplication.java
 	service1.doGetException();
 ```
+## 9. Around Aspect Example
+we can use Around aspect to cut the method execution before and after. We can use it to control whether the advised method will execute or not. 
+We can also inspect the returned value and change it. This is the most powerful advice and needs to be applied properly.
+
+CalcMethodExecTimeByAroundAspect.java
+
+Around advice are always required to have ProceedingJoinPoint as an argument and we should use it’s proceed() method to invoke the target object advised method.
+
 
 
 	
