@@ -57,6 +57,45 @@ CalcMethodExecTimeByAroundAspect.java
 
 Around advice are always required to have ProceedingJoinPoint as an argument and we should use it’s proceed() method to invoke the target object advised method.
 
+## 10. Performance Improvements
+We can create a Common class which includes all pointcut expressions
+
+```
+    @Pointcut("execution(* com.onlinelearning.day10.aop.dao.*.*(..))")
+	public void dataLayerExecution(){}
+	
+	@Pointcut("execution(* com.onlinelearning.day10.aop.service.*.*(..))")
+	public void serviceLayerExecution(){}
+	
+	// To include aa Layers
+	@Pointcut("dataLayerExecution() && serviceLayerExecution()")
+	public void allLayerExecution(){}
+	
+	@Pointcut("bean(*dao*)")
+	public void beanContainingDao(){}
+	
+	@Pointcut("within(com.in28minutes.spring.aop.springaop.data..*)")
+	public void dataLayerExecutionWithWithin(){}
+
+```
+## 11. Advice with Custom Annotation Pointcut
+
+Define new annotation class and write separate class
+```
+
+    @Target(ElementType.METHOD)
+		@Retention(RetentionPolicy.RUNTIME)
+		public @interface TrackTime {
+	}
+	
+    public class CommonJoinPointsConfig {
+		@Pointcut("@annotation(com.onlinelearning.day10.aop.TrackTime)")
+		public void trackTimeAnnotation(){}
+    }
+  
+    Apply @TrackTime methods of Dao1 and Dao2 class methods
+```
+
 
 
 	
