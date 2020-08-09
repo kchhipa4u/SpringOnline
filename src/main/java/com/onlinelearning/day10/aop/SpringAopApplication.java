@@ -29,5 +29,9 @@ public class SpringAopApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		logger.info(service1.doSomething());
 		logger.info(service2.doSomething());
+		
+		// cover with point 6
+		logger.info(service1.doM1());
+		logger.info(service1.doM2());
 	}
 }

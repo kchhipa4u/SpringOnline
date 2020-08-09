@@ -9,18 +9,28 @@ import com.onlinelearning.day10.aop.dao.Dao1;
 
 @Service
 public class Service1 {
-	
+
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Autowired
 	private Dao1 dao1;
-	
-	//@TrackTime
-	public String doSomething(){
-		//Business Logic
+
+	// @TrackTime
+	public String doSomething() {
+		// Business Logic
 		String value = dao1.retrieveSomething();
 		logger.info("In Business - {}", value);
 		return value;
+	}
+
+	public String doM1() {
+          logger.info("Inside doM1()...");
+          return "returning from doM1()";
+	}
+
+	public String doM2() {
+		 logger.info("Inside doM2()...");
+         return "returning from doM2()";
 	}
 
 }
