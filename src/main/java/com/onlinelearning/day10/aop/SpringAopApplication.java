@@ -27,11 +27,13 @@ public class SpringAopApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		logger.info(service1.doSomething());
-		logger.info(service2.doSomething());
+		//logger.info(service1.doSomething());
+		//logger.info(service2.doSomething());
 		
 		// cover with point 6
-		logger.info(service1.doM1());
-		logger.info(service1.doM2());
+		//logger.info(service1.doM1());
+		//logger.info(service1.doM2());
+		
+		service1.doGetException();
 	}
 }

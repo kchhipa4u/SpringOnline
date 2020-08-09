@@ -34,4 +34,21 @@ Sometimes we have to use same Pointcut expression at multiple places, we can cre
 7. Write AfterAspect class which covers both @After, and @AfterReturning Aspects
      -- @After is always called regardless of @AfterReturning or @AfterThrowing.
 
+## 8. @AfterThrowing
+
+```
+    // AfterAspect
+	@AfterThrowing("execution(* com.onlinelearning.day10.aop.service.*.*(..))")
+	public void logExceptions(JoinPoint joinPoint){
+		logger.info("Exception thrown in doGetException Method="+joinPoint.toString());
+	}
+	// Service1.java
+	public void doGetException() {
+			int x = 10/0;
+	}
+	// SpringAopApplication.java
+	service1.doGetException();
+```
+
+
 	

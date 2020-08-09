@@ -32,5 +32,9 @@ public class Service1 {
 		 logger.info("Inside doM2()...");
          return "returning from doM2()";
 	}
+	
+	public void doGetException() {
+			int x = 10/0;
+	}
 
 }

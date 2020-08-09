@@ -3,6 +3,7 @@ package com.onlinelearning.day10.aop.aspect;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,12 @@ public class AfterAspect {
 	@AfterReturning(value = "execution(* com.onlinelearning.day10.aop.service.*.*(..))", returning = "result")
 	public void afterReturning(JoinPoint joinPoint, Object result) {
 		logger.info("{} returned with value {}", joinPoint, result);
+	}
+	
+	
+	@AfterThrowing("execution(* com.onlinelearning.day10.aop.service.*.*(..))")
+	public void logExceptions(JoinPoint joinPoint){
+		logger.info("Exception thrown in doGetException Method="+joinPoint.toString());
 	}
 
 }
