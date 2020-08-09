@@ -19,20 +19,17 @@
 	   b. Test with Joinpoint Argument
 	   
 ## 6. Spring AOP Pointcut Methods and Reuse
-	Sometimes we have to use same Pointcut expression at multiple places, we can create an empty method with @Pointcut 
-	annotation and then use it as an expression in the advices.	  
-	 ```
-	 // cover with point 6
+Sometimes we have to use same Pointcut expression at multiple places, we can create an empty method with @Pointcut annotation and then use it as an expression in the advices.
+	
+```
 	@Before("serviceLayerPointCut()")
 	public void beforeServieLayer(JoinPoint joinPoint) {
 		logger.info(" Before Pointcut on Service layer {} ", joinPoint);
 	}
 	
-	//cover with point 6
 	@Pointcut("execution(* com.onlinelearning.day10.aop.service.*.*(..))")
 	public void serviceLayerPointCut(){}
-	
-	``` 
+```
 	   
 7. Write AfterAspect class which covers both @After, and @AfterReturning Aspects
      -- @After is always called regardless of @AfterReturning or @AfterThrowing.
