@@ -23,10 +23,12 @@ public class SpringAopApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringAopApplication.class, args);
+		System.out.println("KKKK");
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
+		System.out.println("LLLL");
 		logger.info(service1.doSomething());
 		logger.info(service2.doSomething());
 		
