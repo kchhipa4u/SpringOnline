@@ -33,8 +33,14 @@ Sometimes we have to use same Pointcut expression at multiple places, we can cre
 	   
 7. Write AfterAspect class which covers both @After, and @AfterReturning Aspects
      -- @After is always called regardless of @AfterReturning or @AfterThrowing.
+     * *After returning advice*: Advice to be executed after a join point completes normally: for example, if a method returns without throwing an exception.
+     * *After throwing advice*: Advice to be executed if a method exits by throwing an exception.
+     * *After (finally) advice:* Advice to be executed regardless of the means by which a join point exits (normal or exceptional return).
 
 ## 8. @AfterThrowing
+
+a. Add Exception related method in Service1 cass Like given below.
+b. Call that method in SpringAopApplication.java as well to make sure that method is being called for testing purpose.
 
 ```
     // AfterAspect
@@ -56,6 +62,12 @@ We can also inspect the returned value and change it. This is the most powerful 
 CalcMethodExecTimeByAroundAspect.java
 
 Around advice are always required to have ProceedingJoinPoint as an argument and we should use it’s proceed() method to invoke the target object advised method.
+
+Around advice is the most general kind of advice. 
+Since Spring AOP, like AspectJ, provides a full range of advice types, we recommend that you use the least powerful advice type that can implement the required behavior. 
+For example, if you need only to update a cache with the return value of a method, you are better off implementing an after returning advice than an around advice, although an around advice can accomplish the same thing. Using the most specific advice type provides a simpler programming model with less potential for errors. 
+For example, you do not need to invoke the proceed() method on the JoinPoint used for around advice, and hence cannot fail to invoke it.
+
 
 ## 10. Performance Improvements
 We can create a Common class which includes all pointcut expressions
