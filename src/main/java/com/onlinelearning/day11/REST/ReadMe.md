@@ -418,7 +418,7 @@ WebRequest request) {
         return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
-*Step 11: Implementing PUT Request*
+*Step 12: Implementing PUT Request*
 
 * PUT is for the update operation
 * Make the changes in our Service class method *save, *so that* *it can perform dual responsibility save and update both
@@ -464,7 +464,7 @@ public User saveOrUpdate(User user) {
       }
 
 
-*Step 12 - Implementing HATEOAS for RESTful Services*
+*Step 13 - Implementing HATEOAS for RESTful Services*
 
 * HATEOAS is an acronym for *H*ypermedia *A*s *T*he *E*ngine *O*f *A*pplication *S*tate
 * Add the below dependency in pom.xml
@@ -506,7 +506,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
         return resource;
     }
 
-[Image: image.png]
+![alt text]https://github.com/kchhipa4u/SpringOnline/blob/master/image%20(22).png?raw=true)
+
 Should I Use HATEOAS?
 
 When it comes to architectural choices there are always tradeoffs. Before you consider using HATEOAS in the wild, you need to consider the pros and cons and whether or not you actually need it.
