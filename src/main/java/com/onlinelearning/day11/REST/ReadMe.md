@@ -506,6 +506,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
         return resource;
     }
 
+	![alt text](/resources/image/image1.png)
 https://github.com/kchhipa4u/SpringOnline/blob/master/image%20(22).png?raw=true
 
 Should I Use HATEOAS?
