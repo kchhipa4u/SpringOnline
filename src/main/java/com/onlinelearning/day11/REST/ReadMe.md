@@ -508,7 +508,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 	
 
-![alt text](/resources/image/image_1.png)
+![See Image](/src/main//resources/image/image_1.png)
 
 
 Should I Use HATEOAS?
