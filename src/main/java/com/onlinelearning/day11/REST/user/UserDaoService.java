@@ -1,6 +1,7 @@
 package com.onlinelearning.day11.REST.user;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -21,11 +22,22 @@ public class UserDaoService {
 		return users;
 	}
 
-	public User save(User user) {
+	public User saveOrUpdate(User user) {
 		if (user.getId() == null) {
 			user.setId(++usersCount);
+			users.add(user);
+		} else {
+			Iterator<User> iterator = users.iterator();
+			int index = 0;
+			while (iterator.hasNext()) {
+				User usr = iterator.next();
+				if (usr.getId() == user.getId()) {
+					users.set(index, user);
+					break;
+				}
+				++index;
+			}
 		}
-		users.add(user);
 		return user;
 	}
 
@@ -37,5 +49,18 @@ public class UserDaoService {
 		}
 		return null;
 	}
+	
+	public User deleteById(int id) {
+		Iterator<User> iterator = users.iterator();
+		while (iterator.hasNext()) {
+			User user = iterator.next();
+			if (user.getId() == id) {
+				iterator.remove();
+				return user;
+			}
+		}
+		return null;
+	}
+
 
 }

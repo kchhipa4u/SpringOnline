@@ -332,6 +332,188 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 }
 
 
+*Step 10: Implementing DELETE Method to delete a User Resource*
+
+
+* Implement delete functionality in *UserDaoService *Class
+
+public User deleteById(int id) {
+        Iterator<User> iterator = users.iterator();
+        while (iterator.hasNext()) {
+            User user = iterator.next();
+            if (user.getId() == id) {
+                iterator.remove();
+                return user;
+            }
+        }
+        return null;
+    }
+
+* Make changes in *UserResource *class
+
+@DeleteMapping("/users/{id}")
+public void deleteUser(@PathVariable int id) {
+    User user = service.deleteById(id);
+        
+      if(user==null)
+          throw new UserNotFoundException("id-"+ id);        
+ }
+
+
+*Step 11: Implementing Validations for RESTful Services*
+
+
+* Add below Spring boot Starter dependency 
+
+This is needed for Spring boot 2.3.0.RELEASE or more, so in our case only below
+dependency is needed
+<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+ </dependency>
+
+ Below dependency is needed for 2.0.0.RELEASE or less 
+<dependency>
+    <groupId>javax.validation</groupId>
+    <artifactId>validation-api</artifactId>
+    <version>2.0.1.Final</version>
+</dependency>
+
+* Add a validation for a couple of attributes (name, birthDate) in User.java class
+
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
+    @Size(min=2, message="Name should have atleast 2 characters")
+    private String name;
+
+    @Past
+    private Date birthDate;
+
+* add *@Valid* in  *createUser *method of UserResource.java class
+
+@PostMapping("/users")
+    public ResponseEntity<Object> createUser(@Valid @RequestBody User user) {
+        User savedUser = service.save(user);
+        // CREATED
+        // /user/{id}     savedUser.getId()
+        
+        URI location = ServletUriComponentsBuilder
+            .fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(savedUser.getId()).toUri();
+        
+        return ResponseEntity.created(location).build();
+        
+    }
+
+* Run program after above changes but it will not show proper validation message. It show *400 BAD Request*. To address this issue we need to enhance existing Generic Exception class *CustomizedResponseEntityExceptionHandler*
+
+@Override
+protected ResponseEntity<Object> handleMethodArgumentNotValid(
+MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, 
+WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), 
+        "Validation Failed", ex.getBindingResult().toString());
+        return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+*Step 11: Implementing PUT Request*
+
+* PUT is for the update operation
+* Make the changes in our Service class method *save, *so that* *it can perform dual responsibility save and update both
+
+public User saveOrUpdate(User user) {
+        if (user.getId() == null) {
+            user.setId(++usersCount);
+            users.add(user);
+        } else {
+            Iterator<User> iterator = users.iterator();
+            int index = 0;
+            while (iterator.hasNext()) {
+                User usr = iterator.next();
+                if (usr.getId() == user.getId()) {
+                    users.set(index, user);
+                    break;
+                }
+                ++index;
+            }
+        }
+        return user;
+    }
+
+* Introduce update method in *UserResource*.java class
+* It’s ok not to send the location to the consumer. We can send message instead
+
+//PUT http://localhost:8081/users/2
+@PutMapping("/users/{id}")
+      public ResponseEntity<Object> updateUser(@Valid @RequestBody User user, 
+      @PathVariable int id) {
+
+         User dbUser = service.findOne(id);
+         
+         if(dbUser==null)
+                throw new UserNotFoundException("id-"+ id);
+
+        user.setId(id);
+
+        User savedUser = service.saveOrUpdate(user);
+
+            
+            return ResponseEntity.ok("resource updated");
+      }
+
+
+*Step 12 - Implementing HATEOAS for RESTful Services*
+
+* HATEOAS is an acronym for *H*ypermedia *A*s *T*he *E*ngine *O*f *A*pplication *S*tate
+* Add the below dependency in pom.xml
+
+<dependency>
+     <groupId>org.springframework.hateoas</groupId>
+     <artifactId>spring-hateoas</artifactId>
+    <version>0.23.0.RELEASE</version>
+</dependency>
+
+Don't use below Spring Boot dependency.
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-starter-hateoas</artifactId>
+
+* Modify *retrieveUser *method of* UserResource.java *class
+* User Resource  class of hateoas API.
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
+
+@GetMapping("/users/{id}")
+    public Resource<User> retrieveUser(@PathVariable int id) {
+        User user = service.findOne(id);
+        
+        if(user==null)
+            throw new UserNotFoundException("id-"+ id);
+        
+        
+        //"all-users", SERVER_PATH + "/users"  (Don't use Hardcoded stuff)
+        //retrieveAllUsers
+        Resource<User> resource = new Resource<User>(user);
+        
+        ControllerLinkBuilder linkTo = 
+                linkTo(methodOn(this.getClass()).retrieveAllUsers());
+        
+        resource.add(linkTo.withRel("all-users"));
+        
+        //HATEOAS
+        
+        return resource;
+    }
+
+[Image: image.png]
+Should I Use HATEOAS?
+
+When it comes to architectural choices there are always tradeoffs. Before you consider using HATEOAS in the wild, you need to consider the pros and cons and whether or not you actually need it.
+
+HATEOAS adds complexity to the API, which affects both the API developer and those who consume it. The API developer needs to handle the extra work of adding links to each response and providing the correct links based on the current application state. This results in an application that's more complex to build and test than a vanilla CRUD REST API.
+
+
 
 ## 1. Write AdminRestController with all HTTP Methods
 ## 2. SpringBoot Starter RESTApplication.java
